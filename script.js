@@ -1,4 +1,4 @@
-const array = ["ROCK", "PAPER", "SCISSORS"]
+const array = ["rock", "paper", "scissors"]
 
 // Make the random computer pick
 function computerPlay() {
@@ -14,13 +14,14 @@ function playRound(playerSelection, computerSelection) {
     }
     // Makes the player selection uppercase to proceed to comparison
     playerSelection = playerSelection.toUpperCase();
+    computerSelection = computerSelection.toUpperCase();
 
     if (
         (playerSelection == "PAPER") && (computerSelection == "ROCK") || 
         (playerSelection == "ROCK") && (computerSelection == "SCISSORS") || 
         (playerSelection == "SCISSORS") && (computerSelection == "PAPER")
         ) {
-        return("The player won.")
+        return("PLAYER")
     }
 
     else if (
@@ -28,7 +29,7 @@ function playRound(playerSelection, computerSelection) {
         (playerSelection == "ROCK") && (computerSelection == "PAPER") || 
         (playerSelection == "SCISSORS") && (computerSelection == "ROCK")
         ) {
-        return("The computer won.")
+        return("COMPUTER")
     }
 
     else {
@@ -43,37 +44,35 @@ function game() {
     // Loops the game function for 5 rounds, display each round winner and adds a point to the winner
     for (let i = 1; i < 6; i++) {
         const computerSelection = computerPlay()
-        const playerSelection = prompt("What is your selection? (Rock, Paper, Scissors)")
+        const playerSelection = prompt("What is your selection? (rock, paper, scissors)")
         let round = playRound(playerSelection, computerSelection);
-        if (round == "The player won.") {
+        if (round == "PLAYER") {
             playerPoints = playerPoints + 1
-            console.log(`Round ${i}: Player wins
-        The computer picked ${computerSelection}.`)
+            alert(`Round ${i}\nPlayer wins.\nThe computer picked ${computerSelection}.`)
         }        
-        else if (round == "The computer won.") {
+        else if (round == "COMPUTER") {
             computerPoints = computerPoints + 1
-            console.log(`Round ${i}: Computer wins
-        The computer picked ${computerSelection}.`)
+            alert(`Round ${i}\nComputer wins.\nThe computer picked ${computerSelection}.`)
         }
         else if (round == "Invalid selection.") {
             alert("Try again. Select one of the displayed options.")
             return
         }
         else 
-            console.log(`Round ${i}: Tie`)
+            alert(`Round ${i}\nIt's a tie.`)
     }
         
     // Checks the game winner
     if (playerPoints > computerPoints) {
-        return(`The player won the game. ${playerPoints} x ${computerPoints}`)
+        alert(`The player won the game. ${playerPoints} x ${computerPoints}`)
     }
     else if (playerPoints < computerPoints) {
-        return(`The computer won the game. ${playerPoints} x ${computerPoints}`)
+        alert(`The computer won the game. ${playerPoints} x ${computerPoints}`)
     }
     else {
-        return(`It's a tie! ${playerPoints} x ${computerPoints}`)
+        alert(`It's a tie! ${playerPoints} x ${computerPoints}`)
 
 
 }
 }
-console.log(game())
+game()
