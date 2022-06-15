@@ -41,26 +41,23 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let playerPoints = 0 
     let computerPoints = 0
-    // Loops the game function for 5 rounds, display each round winner and adds a point to the winner
-    for (let i = 1; i < 6; i++) {
         const computerSelection = computerPlay()
         const playerSelection = prompt("What is your selection? (rock, paper, scissors)")
         let round = playRound(playerSelection, computerSelection);
         if (round == "PLAYER") {
             playerPoints = playerPoints + 1
-            alert(`Round ${i}\nPlayer wins.\nThe computer picked ${computerSelection}.`)
+            alert(`Player wins.\nThe computer picked ${computerSelection}.`)
         }        
         else if (round == "COMPUTER") {
             computerPoints = computerPoints + 1
-            alert(`Round ${i}\nComputer wins.\nThe computer picked ${computerSelection}.`)
+            alert(`Computer wins.\nThe computer picked ${computerSelection}.`)
         }
         else if (round == "Invalid selection.") {
             alert("Try again. Select one of the displayed options.")
             return
         }
         else 
-            alert(`Round ${i}\nIt's a tie.`)
-    }
+            alert(`It's a tie.`)
         
     // Checks the game winner
     if (playerPoints > computerPoints) {
