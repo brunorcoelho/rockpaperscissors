@@ -1,75 +1,61 @@
-const array = ["rock", "paper", "scissors"]
+const array = ["rock", "paper", "scissors"];
+let playerPoints = 0;
+let computerPoints = 0;
+const handleClick = (e) => {
+	// Calls the game function providing the Button ID and a random computer selection
+	game(e.target.id, array[Math.floor(Math.random() * array.length)]);
+};
 
-// Make the random computer pick
-function computerPlay() {
-    return array[Math.floor(Math.random()* array.length)]
-}
+// Listens for clicks on any of the three buttons on the page
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+	button.addEventListener("click", handleClick);
+});
 
-// Round function
+// Checks who won the round and returns the round winner to the game function
 function playRound(playerSelection, computerSelection) {
-
-    // Checks if player picked an invalid option
-    if ((playerSelection === null) || (playerSelection.toUpperCase() !=("ROCK") && playerSelection.toUpperCase() !=("PAPER") && playerSelection.toUpperCase() !=("SCISSORS"))){
-        return("Invalid selection.")
-    }
-    // Makes the player selection uppercase to proceed to comparison
-    playerSelection = playerSelection.toUpperCase();
-    computerSelection = computerSelection.toUpperCase();
-
-    if (
-        (playerSelection == "PAPER") && (computerSelection == "ROCK") || 
-        (playerSelection == "ROCK") && (computerSelection == "SCISSORS") || 
-        (playerSelection == "SCISSORS") && (computerSelection == "PAPER")
-        ) {
-        return("PLAYER")
-    }
-
-    else if (
-        (playerSelection == "PAPER") && (computerSelection == "SCISSORS") ||
-        (playerSelection == "ROCK") && (computerSelection == "PAPER") || 
-        (playerSelection == "SCISSORS") && (computerSelection == "ROCK")
-        ) {
-        return("COMPUTER")
-    }
-
-    else {
-        return("It's a tie.")
-    }
+  if (
+    (playerSelection == "paper" && computerSelection == "rock") ||
+    (playerSelection == "rock" && computerSelection == "scissors") ||
+    (playerSelection == "scissors" && computerSelection == "paper")
+  ) {
+    return "PLAYER";
+  } else if (
+    (playerSelection == "paper" && computerSelection == "scissors") ||
+    (playerSelection == "rock" && computerSelection == "paper") ||
+    (playerSelection == "scissors" && computerSelection == "rock")
+  ) {
+    return "COMPUTER";
+  } else {
+    return "It's a tie.";
+  }
 }
 
-// Game function
-function game() {
-    let playerPoints = 0 
-    let computerPoints = 0
-        const computerSelection = computerPlay()
-        const playerSelection = prompt("What is your selection? (rock, paper, scissors)")
-        let round = playRound(playerSelection, computerSelection);
-        if (round == "PLAYER") {
-            playerPoints = playerPoints + 1
-            alert(`Player wins.\nThe computer picked ${computerSelection}.`)
-        }        
-        else if (round == "COMPUTER") {
-            computerPoints = computerPoints + 1
-            alert(`Computer wins.\nThe computer picked ${computerSelection}.`)
-        }
-        else if (round == "Invalid selection.") {
-            alert("Try again. Select one of the displayed options.")
-            return
-        }
-        else 
-            alert(`It's a tie.`)
-        
-    // Checks the game winner
-    if (playerPoints > computerPoints) {
-        alert(`The player won the game. ${playerPoints} x ${computerPoints}`)
-    }
-    else if (playerPoints < computerPoints) {
-        alert(`The computer won the game. ${playerPoints} x ${computerPoints}`)
-    }
-    else {
-        alert(`It's a tie! ${playerPoints} x ${computerPoints}`)
-
-
+// Handles the game until anyone scores 5 points
+function game(playerSelection, computerSelection) {
+  let round = playRound(playerSelection, computerSelection);
+  if (round == "PLAYER") {
+    alert(`Player wins.\nThe computer picked ${computerSelection}.`);
+    playerPoints++;
+  } else if (round == "COMPUTER") {
+    alert(`Computer wins.\nThe computer picked ${computerSelection}.`);
+    computerPoints++;
+  } else {
+    alert(`It's a tie.`);
+  }
+  console.log(`${playerPoints} x ${computerPoints}`);
+  if (playerPoints == 5) {
+    endGame('player');
+  } else if (computerPoints == 5) {
+    endGame('computer');
+  }
 }
+
+// endgame function
+function endGame(winner) {
+	alert (`The ${winner} won the game.`)
+  buttons.forEach((button) => {
+    button.removeEventListener("click", handleClick);
+  });
 }
-game()
+
