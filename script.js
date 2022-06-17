@@ -1,15 +1,16 @@
 const array = ["rock", "paper", "scissors"];
 let playerPoints = 0;
 let computerPoints = 0;
+const buttonsBox = document.querySelector(".buttons-container");
+const restart = document.createElement("button");
 const handleClick = (e) => {
-	// Calls the game function providing the Button ID and a random computer selection
-	game(e.target.id, array[Math.floor(Math.random() * array.length)]);
+  // Calls the game function providing the Button ID and a random computer selection
+  game(e.target.id, array[Math.floor(Math.random() * array.length)]);
 };
-
 // Listens for clicks on any of the three buttons on the page
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll(".button");
 buttons.forEach((button) => {
-	button.addEventListener("click", handleClick);
+  button.addEventListener("click", handleClick);
 });
 
 // Checks who won the round and returns the round winner to the game function
@@ -45,17 +46,28 @@ function game(playerSelection, computerSelection) {
   }
   console.log(`${playerPoints} x ${computerPoints}`);
   if (playerPoints == 5) {
-    endGame('player');
+    endGame("player");
   } else if (computerPoints == 5) {
-    endGame('computer');
+    endGame("computer");
   }
 }
 
-// endgame function
+// endGame() is called when the game detects someone made 5 points, then remove the Listener for the choices buttons
 function endGame(winner) {
-	alert (`The ${winner} won the game.`)
+  alert(`The ${winner} won the game.`);
   buttons.forEach((button) => {
     button.removeEventListener("click", handleClick);
   });
+  buttonsBox.appendChild(restart);
+  restart.textContent = "Play again?";
+  restart.addEventListener("click", restartGame);
 }
 
+function restartGame() {
+  playerPoints = 0;
+  computerPoints = 0;
+  buttonsBox.removeChild(restart);
+  buttons.forEach((button) => {
+    button.addEventListener("click", handleClick);
+  });
+}
